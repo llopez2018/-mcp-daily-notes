@@ -5,180 +5,154 @@ import datetime
 import random
 from typing import List, Optional
 
-# --- Configuración de Dominio ---
+# --- Domain Configuration ---
 mcp = FastMCP("Daily Notes Pro")
-
-# Usamos ruta absoluta para NOTES_DIR para evitar ambigüedades en la validación
 NOTES_DIR = os.path.abspath(os.path.join(os.getcwd(), "notes"))
 os.makedirs(NOTES_DIR, exist_ok=True)
-
-# Seguridad: Límite máximo de tamaño para una nota (1 MB) para prevenir DoS
 MAX_NOTE_SIZE_BYTES = 1024 * 1024
 
 def _get_safe_path(title: str) -> str:
-    """
-    Genera una ruta de archivo segura dentro de NOTES_DIR.
-    Implementa protección contra Directory Traversal (Path Jail).
-    """
-    # 1. Sanitización de caracteres (Regex)
+    """Security: Ensures path jail and sanitizes filenames."""
     safe_title = re.sub(r'[^\w\s-]', '', title).strip()
     if not safe_title:
-        raise ValueError("El título de la nota no puede estar vacío o contener solo caracteres especiales.")
-    
-    # 2. Resolución de ruta absoluta
+        raise ValueError("Invalid title.")
     potential_path = os.path.abspath(os.path.join(NOTES_DIR, f"{safe_title}.md"))
-    
-    # 3. Verificación de Path Jail: la ruta resultante DEBE estar dentro de NOTES_DIR
     if not potential_path.startswith(NOTES_DIR):
-        raise PermissionError("Acceso denegado: Intento de salida de directorio (Jailbreak) detectado.")
-        
+        raise PermissionError("Directory Traversal detected.")
     return potential_path
 
 def _sanitize_yaml_value(value: str) -> str:
-    """Sanitiza strings para su inserción segura en el Frontmatter YAML."""
-    # Eliminamos saltos de línea y escapamos comillas dobles
-    clean_val = value.replace('\n', ' ').replace('\r', '').replace('"', "'")
-    return f'"{clean_val}"'
+    """Sanitizes strings for safe YAML injection."""
+    return f'"{value.replace(chr(10), " ").replace(chr(34), str(chr(39)))}"'
 
 def _inject_metadata(title: str, content: str, category: str = "General") -> str:
-    """Inyecta Frontmatter YAML sanitizado para interoperabilidad segura."""
+    """Injects YAML Frontmatter for professional interoperability."""
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    safe_title = _sanitize_yaml_value(title)
-    safe_category = _sanitize_yaml_value(category)
-    
     header = (
         "---\n"
-        f"title: {safe_title}\n"
+        f"title: {_sanitize_yaml_value(title)}\n"
         f"date: {now}\n"
-        f"category: {safe_category}\n"
+        f"category: {_sanitize_yaml_value(category)}\n"
         "status: active\n"
         "---\n\n"
     )
     return header + content
 
-# --- Herramientas Core ---
+# --- Core Tools (English names for Global Standards) ---
 
 @mcp.tool()
 def create_note(title: str, content: str, category: str = "General") -> str:
-    """Crea una nota con metadatos (YAML Frontmatter). Usa categorías descriptivas."""
+    """
+    Creates a new Markdown note with YAML metadata.
+    ES: Crea una nueva nota Markdown con metadatos YAML.
+    """
     try:
         path = _get_safe_path(title)
-        
-        # Validación de tamaño de payload
         if len(content.encode('utf-8')) > MAX_NOTE_SIZE_BYTES:
-            return "Error de Seguridad: El contenido de la nota excede el límite permitido de 1MB."
-
-        formatted_content = _inject_metadata(title, content, category)
+            return "Error: Payload exceeds 1MB limit."
         
-        # 'x' para creación exclusiva (falla si el archivo ya existe)
         with open(path, 'x', encoding='utf-8') as f:
-            f.write(formatted_content)
-        return f"Éxito: Nota '{title}' creada y categorizada como '{category}'."
+            f.write(_inject_metadata(title, content, category))
+        return f"Success: Note '{title}' created in category '{category}'."
     except FileExistsError:
-        return f"Error: La nota '{title}' ya existe. Usa append_to_note si deseas añadir información."
-    except (ValueError, PermissionError) as ve:
-        return f"Error de Validación/Seguridad: {str(ve)}"
+        return f"Error: Note '{title}' already exists."
     except Exception as e:
-        return f"Fallo Inesperado: {str(e)}"
+        return f"Failure: {str(e)}"
 
 @mcp.tool()
 def read_note(title: str) -> str:
-    """Lee una nota completa. Utiliza EAFP para el manejo de archivos."""
+    """
+    Reads the full content of a specific note.
+    ES: Lee el contenido completo de una nota específica.
+    """
     try:
         path = _get_safe_path(title)
         with open(path, 'r', encoding='utf-8') as f:
             return f.read()
-    except (FileNotFoundError, ValueError, PermissionError):
-        return f"Nota '{title}' no encontrada o ruta no válida."
-    except Exception as e:
-        return f"Error de lectura: {str(e)}"
+    except Exception:
+        return f"Error: Note '{title}' not found or invalid."
 
 @mcp.tool()
 def append_to_note(title: str, content: str) -> str:
-    """Añade contenido al final de una nota existente sin borrar lo anterior."""
+    """
+    Appends content to an existing note without overwriting.
+    ES: Añade contenido a una nota existente sin sobrescribir.
+    """
     try:
         path = _get_safe_path(title)
-        
-        # Validación de tamaño (considerando el archivo actual + el nuevo contenido)
-        current_size = os.path.getsize(path) if os.path.exists(path) else 0
-        new_content_size = len(content.encode('utf-8'))
-        
-        if (current_size + new_content_size) > MAX_NOTE_SIZE_BYTES:
-            return "Error de Seguridad: La nota resultante excedería el límite de 1MB."
-
         with open(path, 'a', encoding='utf-8') as f:
             f.write(f"\n\n---\n{content}")
-        return f"Nota '{title}' actualizada exitosamente."
+        return f"Success: Note '{title}' updated."
     except Exception as e:
-        return f"Error al actualizar la nota: {str(e)}"
-
-# --- Herramientas de Análisis y Búsqueda ---
-
-@mcp.tool()
-def extract_pending_tasks() -> str:
-    """
-    Consolida todas las tareas pendientes (- [ ]) de todas las notas.
-    """
-    tasks = []
-    task_pattern = re.compile(r'^\s*-\s*\[\s\]\s+(.*)$', re.MULTILINE)
-    
-    try:
-        for filename in os.listdir(NOTES_DIR):
-            if filename.endswith(".md"):
-                # No necesitamos _get_safe_path aquí porque listamos directamente del directorio controlado
-                with open(os.path.join(NOTES_DIR, filename), 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    matches = task_pattern.findall(content)
-                    for match in matches:
-                        tasks.append(f"[{filename.replace('.md', '')}] {match}")
-        
-        if not tasks:
-            return "No hay tareas pendientes detectadas."
-        return "Tareas pendientes consolidadas:\n" + "\n".join(tasks)
-    except Exception as e:
-        return f"Error al procesar tareas: {str(e)}"
-
-@mcp.tool()
-def get_recent_notes(days: int = 7) -> str:
-    """
-    Lista los títulos de las notas modificadas recientemente.
-    """
-    recent_notes = []
-    cutoff_date = datetime.datetime.now() - datetime.timedelta(days=days)
-    
-    try:
-        for filename in os.listdir(NOTES_DIR):
-            if filename.endswith(".md"):
-                path = os.path.join(NOTES_DIR, filename)
-                mtime = datetime.datetime.fromtimestamp(os.path.getmtime(path))
-                if mtime >= cutoff_date:
-                    recent_notes.append(filename.replace(".md", ""))
-                    
-        if not recent_notes:
-            return f"No hay actividad reciente en los últimos {days} días."
-        return f"Notas recientes ({days} días):\n- " + "\n- ".join(recent_notes)
-    except Exception as e:
-        return f"Error al escanear notas recientes: {str(e)}"
+        return f"Error: {str(e)}"
 
 @mcp.tool()
 def search_notes(query: str) -> str:
-    """Busca un término específico dentro del contenido de todas las notas."""
+    """
+    Global search for a term inside all notes.
+    ES: Búsqueda global de un término dentro de todas las notas.
+    """
     results = []
     try:
-        # Sanitización de la query simple
-        clean_query = query.lower().strip()
+        q = query.lower().strip()
         for filename in os.listdir(NOTES_DIR):
             if filename.endswith(".md"):
-                path = os.path.join(NOTES_DIR, filename)
-                with open(path, 'r', encoding='utf-8') as f:
-                    if clean_query in f.read().lower():
+                with open(os.path.join(NOTES_DIR, filename), 'r', encoding='utf-8') as f:
+                    if q in f.read().lower():
                         results.append(filename.replace(".md", ""))
-        
-        if not results:
-            return f"Cero resultados para '{query}'."
-        return f"Coincidencias encontradas en:\n- " + "\n- ".join(results)
+        return f"Results for '{query}':\n- " + "\n- ".join(results) if results else "No results found."
     except Exception as e:
-        return f"Error en búsqueda global: {str(e)}"
+        return f"Search Error: {str(e)}"
+
+@mcp.tool()
+def list_by_category(category: str) -> List[str]:
+    """
+    Lists note titles filtered by YAML category.
+    ES: Lista títulos de notas filtrados por categoría YAML.
+    """
+    results = []
+    try:
+        for filename in os.listdir(NOTES_DIR):
+            if filename.endswith(".md"):
+                with open(os.path.join(NOTES_DIR, filename), 'r', encoding='utf-8') as f:
+                    if f"category: \"{category}\"" in f.read():
+                        results.append(filename.replace(".md", ""))
+        return results
+    except Exception:
+        return []
+
+@mcp.tool()
+def get_pending_tasks() -> str:
+    """
+    Extracts all pending tasks (- [ ]) from every note.
+    ES: Extrae todas las tareas pendientes (- [ ]) de cada nota.
+    """
+    tasks = []
+    pattern = re.compile(r'^\s*-\s*\[\s\]\s+(.*)$', re.MULTILINE)
+    try:
+        for filename in os.listdir(NOTES_DIR):
+            if filename.endswith(".md"):
+                with open(os.path.join(NOTES_DIR, filename), 'r', encoding='utf-8') as f:
+                    matches = pattern.findall(f.read())
+                    for m in matches:
+                        tasks.append(f"[{filename.replace('.md', '')}] {m}")
+        return "Pending Tasks:\n" + "\n".join(tasks) if tasks else "No pending tasks found."
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+@mcp.tool()
+def get_random_note(category: Optional[str] = None) -> str:
+    """
+    Picks a random note, optionally filtered by category.
+    ES: Selecciona una nota al azar, opcionalmente filtrada por categoría.
+    """
+    try:
+        notes = list_by_category(category) if category else [f.replace(".md", "") for f in os.listdir(NOTES_DIR) if f.endswith(".md")]
+        if not notes: return "No notes found."
+        chosen = random.choice(notes)
+        return f"Random Note: '{chosen}'. Use read_note to explore it."
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 if __name__ == "__main__":
     mcp.run()
