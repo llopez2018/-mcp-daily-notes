@@ -6,7 +6,7 @@
 <a name="english"></a>
 ## 🇺🇸 English: Professional Knowledge Management for AI Agents
 
-**Daily Notes Pro** is a "Next Level" Model Context Protocol (MCP) server. It transforms your local directory into a structured, machine-readable **Second Brain**. It's not just about storing text; it's about providing your AI (Cursor, Claude, Gemini) with a secure, high-performance infrastructure to manage your life and work.
+**Daily Notes Pro** is a high-performance Model Context Protocol (MCP) server designed to transform your local directory into a structured **Second Brain**. It provides your AI (Cursor, Claude, Gemini) with a secure, machine-readable infrastructure to manage your life and work.
 
 ### 🏛️ Project Architecture
 ```text
@@ -24,54 +24,86 @@ mcp-daily-notes/
 └── README.md               # 📖 The Gateway
 ```
 
-### 🚀 Key Features
-- **Semantic Path Jail**: Military-grade path validation prevents any directory traversal.
-- **YAML Infrastructure**: Automatic metadata injection for 100% compatibility with Obsidian/Notion.
-- **Divergent Tools**: Global task extraction, weekly time-machine summaries, and serendipity engines.
-- **Bilingual Core**: Code documented for international collaboration.
+### 🎯 Professional & Personal Use Cases
 
-### 🛠️ Quick Start
-1. **Requirements**: Python 3.10+
-2. **Setup**:
-   ```bash
-   pip install mcp
-   ```
-3. **Integration (Gemini CLI / Cursor / Claude)**:
-   Add this to your `settings.json` or `mcp.json`:
-   ```json
-   {
-     "mcpServers": {
-       "daily-notes-pro": {
-         "command": "python",
-         "args": ["C:/YOUR_PATH/src/daily_notes/server.py"],
-         "trust": true
-       }
-     }
-   }
-   ```
+**1. The Meeting Assistant (Professional Integration)**
+- **Problem:** Scattered notes from Zoom/Teams meetings.
+- **Solution:** Dictate key points to the AI.
+- **Prompt:** *"Create a meeting note for today's 'Naves Industriales' sync. Category: 'Meeting'. Record all the agreements."*
+- **Impact:** The MCP generates a YAML-ready file. If you use **Obsidian** or **Notion**, the note appears automatically in your workplace vault.
+
+**2. Zero-Friction Personal Journal (Habit Tracking)**
+- **Problem:** Opening an app and formatting is a barrier to journaling.
+- **Solution:** Talk to your AI via Claude Desktop or Gemini CLI.
+- **Prompt:** *"Record in today's journal: I ran 5km and felt great. Category: 'Health'."*
+- **Impact:** Because of the YAML metadata (`category: Health`), your Obsidian graph will automatically track your health habits.
+
+**3. The "Lost Idea" Searcher (Semantic Retrieval)**
+- **Problem:** You remember having a business idea but can't find where you wrote it.
+- **Solution:** Use the global search tool.
+- **Prompt:** *"Search all my notes for 'local server buy' or 'hardware ideas'."*
+- **Impact:** The MCP scans all files locally and returns the exact matches, saving tokens and time.
+
+### 🚀 Key Features
+- **Semantic Path Jail**: Military-grade path validation prevents directory traversal.
+- **YAML Metadata**: Automatic injection for 100% compatibility with Obsidian/Notion.
+- **Divergent Tools**: Global task extraction (`- [ ]`), weekly summaries, and serendipity engines.
+
+### 🛠️ Integration (Gemini CLI / Cursor / Claude)
+Add this to your `settings.json` or `mcp.json`:
+```json
+{
+  "mcpServers": {
+    "daily-notes-pro": {
+      "command": "python",
+      "args": ["C:/YOUR_PATH/src/daily_notes/server.py"],
+      "trust": true
+    }
+  }
+}
+```
 
 ---
 
 <a name="español"></a>
 ## 🇲🇽 Español: Infraestructura de Conocimiento "AI-First"
 
-**Daily Notes Pro** es un servidor MCP de "Siguiente Nivel". Transforma tu directorio local en un **Segundo Cerebro** estructurado y legible por máquinas. No se trata solo de guardar texto; se trata de darle a tu IA una infraestructura segura y de alto rendimiento para gestionar tu vida y trabajo.
+**Daily Notes Pro** es un servidor MCP de alto rendimiento diseñado para transformar tu directorio local en un **Segundo Cerebro** estructurado. Le da a tu IA (Cursor, Claude, Gemini) una infraestructura segura y legible por máquinas para gestionar tu vida y trabajo.
 
 ### 🏛️ Arquitectura del Proyecto
 *(Ver mapa visual en la sección English arriba)*
 
+### 🎯 Casos de Uso Profesionales y Personales
+
+**1. El Asistente de Reuniones (Integración Profesional)**
+- **El Problema:** Notas dispersas tras reuniones de Zoom o Teams.
+- **La Solución:** Dictarle a la IA los puntos clave.
+- **El Prompt:** *"Crea una nota de la reunión de hoy de 'Naves Industriales'. Categoría: 'Reunión'. Guarda todos los acuerdos."*
+- **Impacto:** El MCP genera un archivo listo con YAML. Si usas **Obsidian** o **Notion**, la nota aparece automáticamente en tu carpeta de trabajo.
+
+**2. Diario Personal de Fricción Cero (Seguimiento de Hábitos)**
+- **El Problema:** Abrir una app y formatear es una barrera para escribir un diario.
+- **La Solución:** Hablar con tu IA por Claude Desktop o Gemini CLI.
+- **El Prompt:** *"Guarda en mi diario de hoy: Corrí 5km y me sentí genial. Categoría: 'Salud'."*
+- **Impacto:** Gracias a los metadatos YAML (`category: Salud`), tu gráfico de Obsidian rastreará tus hábitos de salud automáticamente.
+
+**3. El Buscador de Ideas Perdidas (Recuperación Semántica)**
+- **El Problema:** Recuerdas haber tenido una idea de negocio pero no dónde la anotaste.
+- **La Solución:** Usar la herramienta de búsqueda global del MCP.
+- **El Prompt:** *"Busca en todas mis notas 'comprar servidores locales' o 'ideas de hardware'."*
+- **Impacto:** El MCP escanea todos los archivos localmente y devuelve las coincidencias exactas, ahorrando tiempo y tokens.
+
 ### 🚀 Funcionalidades Clave
-- **Cárcel de Rutas Semántica**: Validación de rutas de grado militar que previene cualquier intento de hackeo del sistema de archivos.
-- **Infraestructura YAML**: Inyección automática de metadatos para compatibilidad total con Obsidian y Notion.
-- **Herramientas Divergentes**: Extracción global de tareas, resúmenes semanales (máquina del tiempo) y motores de serendipia creativa.
-- **Núcleo Bilingüe**: Código diseñado para la colaboración internacional.
+- **Cárcel de Rutas Semántica**: Validación de rutas que previene hackeos del sistema de archivos.
+- **Metadatos YAML**: Inyección automática para compatibilidad con Obsidian y Notion.
+- **Herramientas Divergentes**: Extracción global de tareas (`- [ ]`), resúmenes semanales y motores de serendipia.
 
 ### 🤖 Ecosistema de Agentes (docs/agents)
-No solo te damos herramientas, te damos el **equipo virtual** para usarlas:
+No solo son herramientas, es un **equipo virtual**:
 - **Archivist**: Experto en metodologías PARA y Zettelkasten.
 - **Task Master**: Implementación de GTD (Getting Things Done).
 - **Creative Muse**: Inspiración basada en SCAMPER y Primeros Principios.
-- **Reviewer**: Analista de rendimiento y retrospectivas semanales.
+- **Reviewer**: Analista de rendimiento y retrospectivas.
 
 ---
 **Developed by Luis Lopez** | [GitHub](https://github.com/llopez2018) | **MCP Community Suite**
