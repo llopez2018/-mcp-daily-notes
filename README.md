@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
 
-**MCP Daily Notes** es un servidor para el Model Context Protocol que permite a cualquier IA (Cursor, Claude Desktop, OpenClaw) gestionar tu conocimiento personal, diario y notas directamente en archivos Markdown locales con metadatos profesionales (YAML).
+**MCP Daily Notes** es un servidor para el Model Context Protocol que permite a cualquier IA (Cursor, Claude Desktop, OpenClaw, Gemini CLI) gestionar tu conocimiento personal, diario y notas directamente en archivos Markdown locales con metadatos profesionales (YAML).
 
 > "No más 'se me olvidó'. Ahora tu IA tiene memoria persistente, categorizada y buscable en tu propio disco duro."
 
@@ -32,7 +32,7 @@ Este MCP no es solo para escribir texto; es un "Segundo Cerebro" estructurado. A
 
 **1. Diario Personal de Fricción Cero (Integración con Obsidian)**
 *   **El Problema:** Quieres llevar un diario, pero abrir la app y formatear da pereza.
-*   **La Solución:** Hablas con tu IA por Claude Desktop u OpenClaw.
+*   **La Solución:** Hablas con tu IA.
 *   **El Prompt:** *"Guarda en mi diario de hoy: Fui a correr 5km y me sentí genial. Categoría: 'Salud'."*
 *   **Impacto:** Debido a que el MCP inyecta metadatos YAML (`category: Salud`, `date: ...`), si tienes la carpeta `/notes` configurada como tu Bóveda de Obsidian, verás un gráfico perfecto de tus hábitos de salud.
 
@@ -53,6 +53,8 @@ Este MCP no es solo para escribir texto; es un "Segundo Cerebro" estructurado. A
 | `list_by_category`| Filtrado por YAML | Permite separar "Personal" de "Trabajo". |
 | `read_note` | Lee una nota completa | Recupera contexto histórico. |
 | `append_to_note` | Añade sin borrar | Ideal para bitácoras y diarios que crecen. |
+| `extract_pending_tasks` | Rastreador global | Busca checkboxes `- [ ]` sin marcar en todo tu sistema. |
+| `get_recent_notes` | Resumen Ejecutivo | Filtra notas de los últimos X días. |
 
 ## 🚀 Instalación y Configuración
 
@@ -63,20 +65,46 @@ Este MCP no es solo para escribir texto; es un "Segundo Cerebro" estructurado. A
   pip install mcp
   ```
 
-### 2. Configuración en tu Cliente IA (mcp.json)
+### 2. Configuración en Gemini CLI (Recomendado)
+Para usar este MCP directamente en tu terminal con Gemini CLI, tienes dos opciones:
 
-Añade la siguiente configuración. **Asegúrate de ajustar la ruta al archivo `server.py`**:
+**Opción A: Inyección Directa (La más segura)**
+Abre tu archivo `~/.gemini/settings.json` y añade este bloque dentro de `"mcpServers"`:
+```json
+{
+  "mcpServers": {
+    "daily-notes-pro": {
+      "command": "python",
+      "args": ["C:/Ruta/Absoluta/A/Tu/Repositorio/src/daily_notes/server.py"],
+      "trust": true
+    }
+  }
+}
+```
+*Nota: Reemplaza la ruta por donde clonaste este repositorio. Reinicia tu sesión de Gemini CLI para aplicar los cambios.*
+
+**Opción B: Vía Comando**
+Dentro de una sesión interactiva de Gemini CLI:
+```bash
+!gemini mcp add daily-notes-pro python "C:/Ruta/Absoluta/A/Tu/Repositorio/src/daily_notes/server.py" --trust
+```
+
+### 3. Configuración en Cursor IDE / Claude Desktop
+Añade la siguiente configuración a tu `mcp.json`. Asegúrate de ajustar la ruta al archivo `server.py`:
 
 ```json
 {
   "mcpServers": {
     "daily-notes": {
       "command": "python",
-      "args": ["C:/Users/llopez/Documents/experimentos/mcp-community-suite/mcp-daily-notes/src/daily_notes/server.py"]
+      "args": ["C:/Ruta/Absoluta/A/Tu/Repositorio/src/daily_notes/server.py"]
     }
   }
 }
 ```
+
+## 🧠 ¿Cómo entrenar a tu IA? (Prompting Avanzado)
+Hemos incluido un archivo `mcp_prompts.json` en la raíz del proyecto. Si estás construyendo agentes (como con LangChain o OpenClaw), puedes pasar este JSON como "System Prompt" para que la IA entienda automáticamente las reglas de oro de categorización y los flujos de trabajo de este MCP.
 
 ## 🛠️ Estructura del Proyecto (SRC Layout)
 
@@ -88,7 +116,8 @@ mcp-daily-notes/
 ├── tests/                      # 🧪 Pruebas unitarias
 ├── notes/                      # 📂 Aquí viven tus archivos .md (tu Segundo Cerebro)
 ├── pyproject.toml              # 📦 Dependencias y metadatos
-└── PROMPT_INSTRUCTIONS.md      # 🤖 Guía para que la IA sea más lista
+├── mcp_prompts.json            # 🤖 Instrucciones máquina para Agentes IA
+└── PROMPT_INSTRUCTIONS.md      # 🤖 Guía rápida para humanos
 ```
 
 ## 🤝 Contribuciones
