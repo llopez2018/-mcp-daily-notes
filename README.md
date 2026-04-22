@@ -6,28 +6,26 @@
 <a name="english"></a>
 ## 🇺🇸 English: Local-First Knowledge Management for AI Agents
 
-**Daily Notes Pro** is a high-performance Model Context Protocol (MCP) server. It transforms your local directory into a structured **Second Brain**. 
+**Daily Notes Pro** is a high-performance Model Context Protocol (MCP) server. It transforms your local directory into a structured **Second Brain**.
+
+### 🚀 Cursor AI Quick Integration
+**Give your Cursor AI permanent memory!** Copy the "One-Shot" prompt from our [Prompt Guide](docs/prompt_guide.md) and paste it into your Cursor Chat to start tracking your project's architecture and decisions automatically.
 
 ### 🛡️ Why Local-First?
-Unlike cloud apps, Daily Notes Pro keeps your data on **your hard drive**. When used with local IAs (Cursor, Claude, or local LLMs via Ollama), you achieve **Total Privacy**. Your data never leaves your machine to train corporate models. [Read more in our Local AI Guide](docs/LOCAL_AI_GUIDE.md).
+Unlike cloud apps, Daily Notes Pro keeps your data on **your hard drive**. When used with local IAs (Cursor, Claude, or local LLMs), you achieve **Total Privacy**. [Read our Sovereignty Guide](docs/LOCAL_AI_GUIDE.md).
 
 ### 🏛️ Project Architecture
 ```text
 mcp-daily-notes/
 ├── docs/                   # 🧠 Intelligence & Methodology
 │   ├── agents/             # Specialized AI Personas (GTD, PARA, SCAMPER)
-│   ├── prompt_guide.md     # How to master AI interaction
+│   ├── prompt_guide.md     # Cursor & AI Interaction Guide
 │   └── LOCAL_AI_GUIDE.md   # Philosophy of Digital Sovereignty
 ├── src/                    # ⚙️ Core Logic (Senior Python)
 ├── notes/                  # 📂 Your Vault (The data lives here)
 ├── examples/               # 💡 Sample professional notes
 └── README.md               # 📖 The Gateway
 ```
-
-### 🚀 Key Features
-- **Semantic Path Jail**: Military-grade path validation prevents directory traversal.
-- **YAML Infrastructure**: Automatic metadata injection for 100% compatibility with Obsidian/Notion.
-- **Divergent Tools**: Global task extraction (`- [ ]`), weekly time-machine summaries.
 
 ---
 
@@ -36,23 +34,11 @@ mcp-daily-notes/
 
 **Daily Notes Pro** es un servidor MCP de alto rendimiento. Transforma tu directorio local en un **Segundo Cerebro** estructurado.
 
+### 🚀 Integración Rápida con Cursor AI
+**¡Dale memoria permanente a tu Cursor!** Copia el prompt "One-Shot" de nuestra [Guía de Prompts](docs/prompt_guide.md) y pégalo en tu chat de Cursor para empezar a registrar la arquitectura y decisiones de tu proyecto automáticamente.
+
 ### 🛡️ ¿Por qué Local-First?
-A diferencia de las apps en la nube, Daily Notes Pro mantiene tus datos en **tu disco duro**. Al usarlo con IAs locales, obtienes **Privacidad Total**. Tus datos nunca salen de tu máquina para entrenar modelos corporativos. [Lee más en nuestra Guía de IA Local](docs/LOCAL_AI_GUIDE.md).
-
-### 🎯 Casos de Uso Profesionales y Personales
-
-**1. El Asistente de Reuniones (Privacidad Profesional)**
-- **Prompt:** *"Crea una nota de la reunión confidencial de hoy. Categoría: 'Proyecto Secreto'."*
-- **Impacto:** La IA genera el archivo localmente. Nadie fuera de tu red tiene acceso a los acuerdos comerciales.
-
-**2. Diario Personal y Hábitos (Obsidian Integration)**
-- **Impacto:** Tus reflexiones personales son 100% privadas. Al usar Markdown + YAML, tu gráfico de **Obsidian** cobra vida sin subir un solo byte a internet.
-
-### 🤖 Ecosistema de Agentes (docs/agents)
-No solo son herramientas, es un **equipo virtual** entrenado en:
-- **Archivist**: PARA & Zettelkasten methodologies.
-- **Task Master**: GTD (Getting Things Done) implementation.
-- **Creative Muse**: SCAMPER & First Principles thinking.
+A diferencia de las apps en la nube, Daily Notes Pro mantiene tus datos en **tu disco duro**. Al usarlo con IAs locales, obtienes **Privacidad Total**. [Lee nuestra Guía de Soberanía](docs/LOCAL_AI_GUIDE.md).
 
 ---
 **Developed by Luis Lopez** | [GitHub](https://github.com/llopez2018) | **Digital Sovereignty Movement**

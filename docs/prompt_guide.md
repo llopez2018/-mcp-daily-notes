@@ -4,31 +4,31 @@
 ---
 
 <a name="english"></a>
-## 🇺🇸 English: Mastering Interaction
+## 🇺🇸 English: Cursor AI "One-Shot" Integration
 
-To get the best out of Daily Notes Pro, your AI assistant should follow these core principles. You can paste this into your System Prompt.
+If you are using **Cursor**, copy and paste the prompt below into the Cursor Chat (Ctrl+L). It will guide you through cloning and using this MCP to manage your current coding project.
 
-### 🛠️ Usage Rules
-1. **Think Before Writing**: Always check if a note already exists using `search_notes` before creating a new one.
-2. **Standardized Metadata**: Always use categories like `Work`, `Personal`, `Idea`, `Finance`, `Health`.
-3. **Atomic Context**: Create notes for single, discrete ideas to make them easier to find later.
-
-### 💡 Example Interaction
-**User:** "Remind me to call Luis tomorrow about the project."
-**AI:** (Calls `create_note(title="Call Luis", content="- [ ] Call Luis about project status.", category="Work")`)
+> **Prompt:** "I want to give you long-term memory for this project using Luis Lopez's **Daily Notes Pro** MCP. Please:
+> 1. Help me clone the repository from `https://github.com/llopez2018/-mcp-daily-notes`.
+> 2. Explain how I should add it to my Cursor MCP settings (Features > MCP).
+> 3. Once active, create a new note called 'Project Architecture' and summarize our current file structure.
+> 4. From now on, use this MCP to record every major architectural decision we make."
 
 ---
 
 <a name="español"></a>
-## 🇲🇽 Español: Dominando la Interacción
+## 🇲🇽 Español: Integración "One-Shot" para Cursor AI
 
-Para obtener lo mejor de Daily Notes Pro, tu asistente de IA debe seguir estos principios fundamentales. Puedes pegar esto en tu System Prompt.
+Si usas **Cursor**, copia y pega el siguiente prompt en el chat de Cursor (Ctrl+L). Te guiará para clonar y usar este MCP para gestionar tu proyecto actual de código.
 
-### 🛠️ Reglas de Uso
-1. **Piensa antes de escribir**: Siempre verifica si una nota ya existe usando `search_notes` antes de crear una nueva.
-2. **Metadatos Estandarizados**: Usa siempre categorías como `Trabajo`, `Personal`, `Idea`, `Finanzas`, `Salud`.
-3. **Contexto Atómico**: Crea notas para ideas únicas y discretas para que sean más fáciles de encontrar después.
+> **Prompt:** "Quiero darte memoria de largo plazo para este proyecto usando el MCP **Daily Notes Pro** de Luis Lopez. Por favor:
+> 1. Ayúdame a clonar el repositorio desde `https://github.com/llopez2018/-mcp-daily-notes`.
+> 2. Explícame cómo debo añadirlo a mis ajustes de Cursor MCP (Features > MCP).
+> 3. Una vez activo, crea una nota llamada 'Arquitectura del Proyecto' y resume nuestra estructura de archivos actual.
+> 4. De ahora en adelante, usa este MCP para registrar cada decisión de arquitectura importante que tomemos."
 
-### 💡 Ejemplo de Interacción
-**Usuario:** "Recuérdame llamar a Luis mañana sobre el proyecto."
-**IA:** (Llama a `create_note(title="Llamar a Luis", content="- [ ] Llamar a Luis sobre estatus del proyecto.", category="Trabajo")`)
+---
+
+### 💡 Why use this in your coding projects? / ¿Por qué usar esto en tus proyectos?
+- **Bug Logs**: Tell Cursor: *"Record this bug and the fix in our Daily Notes"* so you don't repeat mistakes. / **Bitácora de Errores**: Dile a Cursor que registre errores y soluciones para no repetirlos.
+- **Context Persistence**: When you restart Cursor, ask the AI to read the latest notes to remember where you left off. / **Persistencia de Contexto**: Al reiniciar Cursor, pide a la IA que lea las notas para saber dónde se quedaron.
