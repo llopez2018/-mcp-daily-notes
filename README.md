@@ -4,27 +4,55 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
 
-**MCP Daily Notes** es un servidor para el Model Context Protocol que permite a cualquier IA (Cursor, Claude Desktop, OpenClaw) gestionar tu conocimiento personal, diario y notas directamente en archivos Markdown locales.
+**MCP Daily Notes** es un servidor para el Model Context Protocol que permite a cualquier IA (Cursor, Claude Desktop, OpenClaw) gestionar tu conocimiento personal, diario y notas directamente en archivos Markdown locales con metadatos profesionales (YAML).
 
-> "No más 'se me olvidó'. Ahora tu IA tiene memoria persistente en tu propio disco duro."
+> "No más 'se me olvidó'. Ahora tu IA tiene memoria persistente, categorizada y buscable en tu propio disco duro."
 
 ---
 
-## 🌟 ¿Por qué usar este MCP?
+## 🎯 Casos de Uso e Integraciones
 
-A diferencia de las memorias volátiles de los chats, este servidor le da a tu IA:
-1. **Persistencia Real**: Todo se guarda en archivos `.md` estándar que puedes abrir con Obsidian, VS Code o Notepad.
-2. **Privacidad Total**: Tus notas nunca salen de tu máquina. La IA solo accede a ellas cuando tú lo autorizas mediante el protocolo MCP.
-3. **Organización Automática**: Deja que la IA estructure tus pensamientos, añada fechas y organice tus listas de ideas.
+Este MCP no es solo para escribir texto; es un "Segundo Cerebro" estructurado. Al generar archivos `.md` con Frontmatter YAML, la interoperabilidad es total.
+
+### 💼 Entorno Profesional (Productividad y Gestión)
+
+**1. El Asistente de Reuniones (Integración Local)**
+*   **El Problema:** Tienes reuniones por Zoom y haces notas dispersas.
+*   **La Solución:** Le dictas a la IA los puntos clave.
+*   **El Prompt:** *"Crea una nota de la reunión de hoy con el equipo de Naves Industriales. Categoría: 'Reuniones'. Pon los acuerdos a los que llegamos."*
+*   **Impacto:** El MCP genera el archivo. Si usas un software como **Notion** (vía importación) o **Obsidian** en tu trabajo, ese archivo `.md` aparece automáticamente en tu bóveda con la fecha de hoy.
+
+**2. Gestor de Tareas y Contexto de Proyecto (Integración con Cursor IDE)**
+*   **El Problema:** Cuando cierras tu editor de código (Cursor/VS Code), la IA olvida dónde te quedaste.
+*   **La Solución:** Usar el MCP como "Bitácora de Arquitectura".
+*   **El Prompt:** *"Añade al final de la nota 'Contexto-Proyecto-X' que mañana debo arreglar el timeout de la base de datos."*
+*   **Impacto:** Al día siguiente, le dices a la IA *"Lee la nota 'Contexto-Proyecto-X' y dime qué nos faltó ayer"*. La IA recupera la memoria instantáneamente.
+
+### 🏠 Entorno Personal (Desarrollo y Hábitos)
+
+**1. Diario Personal de Fricción Cero (Integración con Obsidian)**
+*   **El Problema:** Quieres llevar un diario, pero abrir la app y formatear da pereza.
+*   **La Solución:** Hablas con tu IA por Claude Desktop u OpenClaw.
+*   **El Prompt:** *"Guarda en mi diario de hoy: Fui a correr 5km y me sentí genial. Categoría: 'Salud'."*
+*   **Impacto:** Debido a que el MCP inyecta metadatos YAML (`category: Salud`, `date: ...`), si tienes la carpeta `/notes` configurada como tu Bóveda de Obsidian, verás un gráfico perfecto de tus hábitos de salud.
+
+**2. El "Buscador de Ideas" Perdidas**
+*   **El Problema:** Sabes que tuviste una idea de negocio, pero no recuerdas dónde ni cuándo la anotaste.
+*   **La Solución:** Usar la herramienta de búsqueda semántica del MCP.
+*   **El Prompt:** *"Busca en mis notas dónde mencioné algo sobre 'comprar servidores locales'."*
+*   **Impacto:** El MCP escaneará recursivamente tus archivos usando la herramienta `search_notes` y le devolverá a la IA los resultados exactos para que te responda.
+
+---
 
 ## ✨ Funcionalidades Principales
 
-| Herramienta | Acción | Caso de Uso |
+| Herramienta | Acción | Ventaja Profesional |
 | :--- | :--- | :--- |
-| `create_note` | Crea una nota nueva | "Guarda esta idea para un nuevo video..." |
-| `list_notes` | Lista tus notas | "¿De qué temas hemos estado hablando?" |
-| `read_note` | Lee una nota completa | "Recuérdame qué escribí sobre el proyecto X." |
-| `append_to_note` | Añade sin borrar | "Añade este nuevo gasto a mi lista de hoy." |
+| `create_note` | Crea nota con YAML | Soporte nativo para Obsidian/Notion. |
+| `search_notes` | Búsqueda global | Ahorra tokens, no lee archivos innecesarios. |
+| `list_by_category`| Filtrado por YAML | Permite separar "Personal" de "Trabajo". |
+| `read_note` | Lee una nota completa | Recupera contexto histórico. |
+| `append_to_note` | Añade sin borrar | Ideal para bitácoras y diarios que crecen. |
 
 ## 🚀 Instalación y Configuración
 
@@ -44,26 +72,23 @@ Añade la siguiente configuración. **Asegúrate de ajustar la ruta al archivo `
   "mcpServers": {
     "daily-notes": {
       "command": "python",
-      "args": ["C:/Users/llopez/Documents/experimentos/mcp-community-suite/mcp-daily-notes/server.py"]
+      "args": ["C:/Users/llopez/Documents/experimentos/mcp-community-suite/mcp-daily-notes/src/daily_notes/server.py"]
     }
   }
 }
 ```
 
-## 🤖 Ejemplos de Prompts para usar con la IA
-
-- *"Crea una nota llamada 'Diario 22-04' y resume lo que hicimos hoy."*
-- *"¿Tengo alguna nota donde hable sobre mis metas de ahorro?"*
-- *"Añade 'Comprar leche' a mi nota de 'Pendientes Semanales'."*
-
-## 🛠️ Estructura del Proyecto
+## 🛠️ Estructura del Proyecto (SRC Layout)
 
 ```text
 mcp-daily-notes/
-├── notes/              # 📂 Aquí viven tus archivos .md
-├── server.py           # 🧠 El corazón del servidor MCP
-├── requirements.txt    # 📦 Dependencias
-└── PROMPT_INSTRUCTIONS.md # 🤖 Guía para que la IA sea más lista
+├── src/
+│   └── daily_notes/
+│       └── server.py           # 🧠 El corazón del servidor MCP
+├── tests/                      # 🧪 Pruebas unitarias
+├── notes/                      # 📂 Aquí viven tus archivos .md (tu Segundo Cerebro)
+├── pyproject.toml              # 📦 Dependencias y metadatos
+└── PROMPT_INSTRUCTIONS.md      # 🤖 Guía para que la IA sea más lista
 ```
 
 ## 🤝 Contribuciones
@@ -75,4 +100,4 @@ mcp-daily-notes/
 Este proyecto está bajo la Licencia MIT. Siéntete libre de usarlo, modificarlo y compartirlo.
 
 ---
-**Desarrollado por Luis Lopez** | [GitHub](https://github.com/tu-usuario) | Suite de MCPs Comunitarios.
+**Desarrollado por Luis Lopez** | [GitHub](https://github.com/llopez2018) | Suite de MCPs Comunitarios.
